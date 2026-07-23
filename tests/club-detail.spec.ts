@@ -12,6 +12,7 @@ test.describe('Club detail (POM)', () => {
 
     const americanGymnastics = clubsPage.getClubList().getCardByName('American Gymnastics');
     await americanGymnastics.openDetails();
+    await clubDetailPage.waitForLoaded();
 
     await expect(clubDetailPage.getClubNameLocator()).toHaveText('American Gymnastics Club');
     await expect(clubDetailPage.getEnrollButton()).toBeDisabled();

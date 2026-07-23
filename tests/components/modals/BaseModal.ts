@@ -1,22 +1,19 @@
 import { type Locator, type Page } from '@playwright/test';
 import { BaseComponent } from '../../pages/base/BaseComponent';
+import { OAuthBlock } from '../oauth/OAuthBlock';
 
-/**
- * Базовий Component Object для Ant Design модалок.
- *
- * Показує ДВІ речі одночасно:
- * - успадкування: конкретні модалки (LoginModal, RegistrationModal) наслідують цей клас;
- * - композицію: сторінка (HomePage) містить такі модалки як свої поля.
- *
- * `root` — це корінь конкретної модалки (`.modal-login`, `.modal-registration`).
- * Усі локатори всередині модалки шукаємо від `this.root`, а не від усієї сторінки.
- */
 export abstract class BaseModal extends BaseComponent {
   protected readonly closeButton: Locator;
+  protected readonly oauth: OAuthBlock;
 
   constructor(page: Page, root: Locator) {
     super(page, root);
     this.closeButton = this.root.locator('.ant-modal-close');
+    this.oauth = new OAuthBlock(page, this.root);
+  }
+
+  getOAuthBlock(): OAuthBlock {
+    return this.oauth;
   }
 
   async waitForOpen(): Promise<void> {

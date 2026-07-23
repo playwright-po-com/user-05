@@ -37,4 +37,11 @@ export abstract class BaseAppPage extends BaseComponent {
   async clickLogo(): Promise<void> {
     await this.header.clickLogo();
   }
+  getHeader(): Header {
+    return this.header;
+  }
+
+  getFooter(): Footer {
+    return this.footer;
+  }
 }

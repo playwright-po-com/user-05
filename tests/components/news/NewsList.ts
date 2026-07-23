@@ -1,18 +1,25 @@
-import { type Page } from '@playwright/test';
+import { Locator, type Page } from '@playwright/test';
 import { BaseComponent } from '../../pages/base/BaseComponent';
+import { NewsCard } from './NewsCard';
 
-/**
- * TODO (студент): список новин на `/news`.
- * Орієнтир: `ClubList` + `NewsCard`.
- *
- * Підказки з DOM:
- * - контейнер контенту: `.news-content`
- * - картки: `#newsContainer`
- */
 export class NewsList extends BaseComponent {
+  private readonly newsCards: Locator;
+  
   constructor(page: Page) {
-    super(page);
-    // TODO: задати root (напр. `.news-content`), картки `#newsContainer`
-    // TODO: waitForLoaded() / getFirstCard() / getCardByTitle(title)
+    super(page, page.locator('.news-content'));
+    this.newsCards = this.root.locator('#newsContainer')
   }
+
+  waitForLoaded(): Promise<void> {
+    return this.newsCards.first().waitFor({ state: 'visible' });
+  }
+
+  getFirstCard(): NewsCard {
+    return new NewsCard(this.page, this.newsCards.first());
+  }
+
+  getCardByTitle(title: string): NewsCard {
+    const cardRoot = this.newsCards.filter({ hasText: title });
+    return new NewsCard(this.page, cardRoot);
+  } 
 }

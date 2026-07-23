@@ -20,6 +20,7 @@ export class Header extends BaseComponent {
     this.userProfileTrigger = this.root.locator('.user-profile');
   }
 
+
   async clickLogo(): Promise<void> {
     await this.logoLink.click();
   }

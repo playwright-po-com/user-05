@@ -37,6 +37,10 @@ export class ClubDetailPage extends SearchablePage {
     this.similarClubsSection = page.locator('.similar-clubs');
   }
 
+  async waitForLoaded(): Promise<void> {
+    await this.clubName.waitFor({ state: 'visible' });
+  }
+
   async gotoClubDetailPage(clubId: number | string): Promise<void> {
     await this.open(`club/${clubId}`);
   }
